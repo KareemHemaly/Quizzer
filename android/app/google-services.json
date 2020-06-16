@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "800500724188",
+    "firebase_url": "https://quizzer-d3ba0.firebaseio.com",
+    "project_id": "quizzer-d3ba0",
+    "storage_bucket": "quizzer-d3ba0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800500724188:android:99a868f33435fa28619f19",
+        "android_client_info": {
+          "package_name": "com.hemaly.quizzer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "800500724188-30nfd34iemnblcaafpasvthmu000skbh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxH-5a-RrUcqeiDVLjJIDEBJWU7Iarldw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "800500724188-30nfd34iemnblcaafpasvthmu000skbh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
