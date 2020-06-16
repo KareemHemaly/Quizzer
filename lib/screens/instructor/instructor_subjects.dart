@@ -17,6 +17,25 @@ class InstructorSubjects extends StatelessWidget {
             ),
           ),
         ),
+        body: Container(
+          margin: const EdgeInsets.all(10.0),
+          child: Column(
+            children: <Widget>[
+              FlatButton(
+                child: Text(
+                  'Math',
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 33,
+                    color: const Color(0xff0f4c75),
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: const Color(0xff1B262C),
           child: Icon(
