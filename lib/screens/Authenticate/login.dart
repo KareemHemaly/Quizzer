@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:quizzer/Theme/theme.dart';
 import 'package:quizzer/screens/Authenticate/registration.dart';
+import 'package:quizzer/screens/instructor/instructor_subjects.dart';
 import 'package:quizzer/services/auth.dart';
 
-import '../instructor_subjects.dart';
 
 class Login extends StatefulWidget {
   @override

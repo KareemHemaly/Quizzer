@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:quizzer/models/userModel.dart';
 import 'package:quizzer/screens/Authenticate/login.dart';
 
-import 'instructor_subjects.dart';
+import 'instructor/instructor_subjects.dart';
 
 class Wrapper extends StatefulWidget {
   @override
