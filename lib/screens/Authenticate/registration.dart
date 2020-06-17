@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:quizzer/Theme/theme.dart';
-import 'package:quizzer/screens/Authenticate/registration.dart';
+import 'package:quizzer/models/userDetailModel.dart';
 import 'package:quizzer/services/auth.dart';
+import 'package:quizzer/services/userService.dart';
 
 import '../instructor_subjects.dart';
 
-class Login extends StatefulWidget {
+class Registration extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _RegistrationState createState() => _RegistrationState();
 }
 
-class _LoginState extends State<Login> {
+class _RegistrationState extends State<Registration> {
   final AuthService _authService = new AuthService();
+  final UserDetail _userDetail = new UserDetail();
+  final UserService _userService = new UserService();
 
-  String userName;
+  int radioValue = 0;
   String pass;
+  String userName;
 
   @override
   Widget build(BuildContext context) {
@@ -100,13 +104,56 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 30.0,
             ),
+            Row(
+              children: <Widget>[
+                new Flexible(
+                    child: ListTile(
+                  title: const Text('Student',
+                      style: TextStyle(
+                          fontSize: 23,
+                          color: Color(0xff3282b8),
+                          fontWeight: FontWeight.bold)),
+                  leading: Radio(
+                    value: 0,
+                    groupValue: radioValue,
+                    onChanged: (value) {
+                      setState(() {
+                        radioValue = value;
+                      });
+                    },
+                  ),
+                )),
+                new Flexible(
+                    child: ListTile(
+                  title: const Text(
+                    'Instructor',
+                    style: TextStyle(
+                        fontSize: 23,
+                        color: Color(0xff3282b8),
+                        fontWeight: FontWeight.bold),
+                  ),
+                  leading: Radio(
+                    value: 1,
+                    groupValue: radioValue,
+                    onChanged: (value) {
+                      setState(() {
+                        radioValue = value;
+                      });
+                    },
+                  ),
+                )),
+              ],
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
             Container(
                 padding: EdgeInsets.fromLTRB(100.0, 0, 100.0, 0),
                 child: FlatButton(
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(40.0)),
                   color: Color(0xff3282b8),
-                  child: Text("LOGIN",
+                  child: Text("SIGN UP",
                       style: TextStyle(
                         fontFamily: 'Arial',
                         fontSize: 20,
@@ -114,36 +161,22 @@ class _LoginState extends State<Login> {
                         fontWeight: FontWeight.w700,
                       )),
                   onPressed: () async {
-                    var result = await _authService.signInWithEmailAndPassword(
-                        this.userName, this.pass);
+                    var result =
+                        await _authService.regiseterWithUserNameAndPassword(
+                            this.userName, this.pass);
                     if (result != null) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InstructorSubjects()));
+                      this._userDetail.userName = this.userName;
+                      this._userDetail.userId = result.uid;
+                      this._userDetail.type =
+                          this.radioValue == 0 ? "student" : "instructor";
+                      var userRsult =
+                          await this._userService.add(this._userDetail);
+                      if (userRsult != null) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => InstructorSubjects()));
+                      }
                     }
                   },
                 )),
-            Container(
-                padding: EdgeInsets.fromLTRB(170.0, 15.0, 0, 0),
-                child: GestureDetector(
-                    onTap: () {
-                      print("SIGN UP Pressed");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Registration()));
-                    },
-                    child: Text(
-                      "SIGN UP",
-                      style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 17,
-                        color: const Color(0xffbbe1fa),
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.underline,
-                      ),
-                    )))
           ],
         ),
       )),
