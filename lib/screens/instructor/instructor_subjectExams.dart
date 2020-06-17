@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'instructor_examGrades.dart';
 import 'instructor_newExam.dart';
+import 'instructor_viewExam.dart';
 
 class InstructorSubjectsExams extends StatelessWidget {
   @override
@@ -37,7 +38,13 @@ class InstructorSubjectsExams extends StatelessWidget {
                       ),
                       textAlign: TextAlign.left,
                     ),
-                    onPressed: () {},
+                   onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InstructorViewExam(),
+                          ));
+                    },
                   ),
                   FlatButton(
                     child: Text(
