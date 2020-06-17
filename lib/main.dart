@@ -4,6 +4,9 @@ import 'package:quizzer/screens/wrapper.dart';
 import 'package:quizzer/services/auth.dart';
 import 'package:provider/provider.dart';
 
+
+import 'package:quizzer/screens/view_user_grade.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -17,7 +20,8 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<User>.value(
         value: AuthService().user,
         child: MaterialApp(
-          home: Wrapper(),
+        //  home: Wrapper(),
+        home: ViewUserGrade(),
         ));
   }
 }

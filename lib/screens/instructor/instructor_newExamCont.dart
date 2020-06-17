@@ -392,6 +392,7 @@ class InstructorNewExamCont extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: FloatingActionButton(
                       backgroundColor: const Color(0xff0f752a),
+                      heroTag: "btn1",
                       child: Icon(
                         Icons.check,
                         color: const Color(0xffBBE1FA),
@@ -408,6 +409,7 @@ class InstructorNewExamCont extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: FloatingActionButton(
+                      heroTag: "btn2",
                       backgroundColor: const Color(0xff1B262C),
                       child: Icon(
                         Icons.add,
