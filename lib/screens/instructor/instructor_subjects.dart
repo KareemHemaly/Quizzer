@@ -1,8 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:quizzer/models/subject.dart';
+import 'package:quizzer/services/subjectService.dart';
 
 import 'instructor_subjectExams.dart';
 
-class InstructorSubjects extends StatelessWidget {
+class InstructorSubjects extends StatefulWidget {
+  @override
+  _InstructorSubjectsState createState() => _InstructorSubjectsState();
+}
+
+class _InstructorSubjectsState extends State<InstructorSubjects> {
+  String _subjectName;
+  final SubjectService _subjectService = new SubjectService();
+  SubjectModel _model = new SubjectModel();
+  List<SubjectModel> _subjects = new List<SubjectModel>();
+
+  getSubjects() async {
+    var result = await _subjectService.get();
+    setState(() {
+      _subjects = result;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSubjects();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,27 +48,32 @@ class InstructorSubjects extends StatelessWidget {
         ),
         body: Container(
           margin: const EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              FlatButton(
-                child: Text(
-                  'English',
-                  style: TextStyle(
-                    fontFamily: 'Arial',
-                    fontSize: 33,
-                    color: const Color(0xff0f4c75),
+          child: ListView.builder(
+            itemCount: this._subjects.length ?? 0,
+            itemBuilder: (BuildContext context, index) {
+              return this._subjects == null ? SpinKitWanderingCubes(color: Color(0xff0f4c75)) : Column(
+                children: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      this._subjects[index].name,
+                      style: TextStyle(
+                        fontFamily: 'Arial',
+                        fontSize: 33,
+                        color: const Color(0xff0f4c75),
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InstructorSubjectsExams()),
+                      );
+                    },
                   ),
-                  textAlign: TextAlign.left,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => InstructorSubjectsExams()),
-                  );
-                },
-              ),
-            ],
+                ],
+              );
+            },
           ),
         ),
         floatingActionButton: FloatingActionButton(
@@ -62,10 +94,9 @@ class InstructorSubjects extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Flexible(
-                          child: Container(
+              child: Container(
                 color: Color(0xFF737373),
                 child: Container(
-                  
                   decoration: BoxDecoration(
                     borderRadius: new BorderRadius.only(
                       topLeft: const Radius.circular(27.0),
@@ -104,6 +135,11 @@ class InstructorSubjects extends StatelessWidget {
                             border: OutlineInputBorder(),
                             labelText: 'subject',
                           ),
+                          onChanged: (val) {
+                            setState(() {
+                              _subjectName = val;
+                            });
+                          },
                         ),
                       ),
                       SizedBox(height: 20.0),
@@ -115,12 +151,17 @@ class InstructorSubjects extends StatelessWidget {
                           color: const Color(0xff0f4c75),
                         ),
                         child: FlatButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => InstructorSubjects()),
-                            );
+                          onPressed: () async {
+                            if (!_subjectName.isEmpty) {
+                              _model.name = _subjectName;
+                              var result = await _subjectService.add(_model);
+                              if (result != null) {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                Navigator.pop(context);
+                                await getSubjects();
+                              }
+                            }
                           },
                           child: Text(
                             'SUBMIT',
