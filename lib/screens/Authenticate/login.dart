@@ -79,6 +79,7 @@ class _LoginState extends State<Login> {
                       fontSize: 20,
                       color: Color(0xff3282b8),
                     ),
+                  
                   ),
                 )),
                 new Container(
@@ -93,6 +94,7 @@ class _LoginState extends State<Login> {
                         pass = val;
                       });
                     },
+                    obscureText: true,
                   ),
                 )
               ],

@@ -24,345 +24,206 @@ class StudentNewExam extends StatelessWidget {
         body: Column(
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.all(5.0),
+              
+              padding: const EdgeInsets.all(7.0),
               width: 360.0,
-              height: 72.0,
+              height: 120.0,
               decoration: BoxDecoration(
                 color: const Color(0xff3282b8),
                 borderRadius: BorderRadius.circular(4.0),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: <Widget>[
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      SizedBox(height: 10.0),
-                      Text(
-                        'Exam description:',
-                        style: TextStyle(
-                          fontFamily: 'Arial',
-                          fontSize: 15,
-                          color: const Color(0xff1b262c),
-                          fontWeight: FontWeight.w900,
+                      Container(
+                        child: Text(
+                          'Instructor:',
+                          style: TextStyle(
+                            fontFamily: 'Arial',
+                            fontSize: 15,
+                            color: const Color(0xff1b262c),
+                            fontWeight: FontWeight.w900,
+                          ),
+                          textAlign: TextAlign.left,
                         ),
-                        textAlign: TextAlign.left,
                       ),
-                      Text(
-                        'bla bla blabla',
-                        style: TextStyle(
-                          fontFamily: 'Arial',
-                          fontSize: 23,
-                          color: const Color(0xff1b262c),
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
+                      Container(
+                        width: 200.0,
+                        child: MycomboBox()),
                     ],
                   ),
-                  Container(
-                    child: Text(
-                      '18/20',
-                      style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 28,
-                        color: const Color(0xff1b262c),
-                        fontWeight: FontWeight.w700,
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        child: Text(
+                          'Subject:',
+                          style: TextStyle(
+                            fontFamily: 'Arial',
+                            fontSize: 15,
+                            color: const Color(0xff1b262c),
+                            fontWeight: FontWeight.w900,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
                       ),
-                      textAlign: TextAlign.left,
-                    ),
-                  )
+                      Container(width: 200.0,child: MycomboBox()),
+                    ],
+                  ),
                 ],
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(20.0),
+              margin: const EdgeInsets.all(10.0),
               child: Column(
                 children: <Widget>[
-                  //############################################# MCQ CONTAINER #############################################
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              'Q1: MCQ',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              'Math / instructor',
                               style: TextStyle(
                                 fontFamily: 'Arial',
-                                fontSize: 15,
+                                fontSize: 12,
                                 color: const Color(0xff0f4c75),
                                 fontWeight: FontWeight.w900,
                               ),
                               textAlign: TextAlign.left,
                             ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Question:',
-                              style: TextStyle(
-                                fontFamily: 'Arial',
-                                fontSize: 23,
-                                color: const Color(0xff0f4c75),
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            Container(
-                              width: 254.0,
-                              height: 25.0,
-                              child: Text(
-                                'bla bla bla:',
-                                style: TextStyle(
-                                  fontFamily: 'Arial',
-                                  fontSize: 23,
-                                  color: const Color(0xff0f4c75),
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Choices:',
-                              style: TextStyle(
-                                fontFamily: 'Arial',
-                                fontSize: 23,
-                                color: const Color(0xff0f4c75),
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            Column(
-                              children: <Widget>[
-                                Container(
-                                  width: 113.0,
-                                  height: 25.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    color: const Color(0x5cffffff),
-                                  ),
-                                  child: Text(
-                                    'option 1',
-                                    style: TextStyle(
-                                      fontFamily: 'Arial',
-                                      fontSize: 23,
-                                      color: const Color(0xff0f4c75),
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                SizedBox(height: 2.0),
-                                Container(
-                                  width: 113.0,
-                                  height: 25.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    color: const Color(0x5c0f752a),
-                                  ),
-                                  child: Text(
-                                    'option 3',
-                                    style: TextStyle(
-                                      fontFamily: 'Arial',
-                                      fontSize: 23,
-                                      color: const Color(0xff0f4c75),
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: <Widget>[
-                                Container(
-                                  width: 113.0,
-                                  height: 25.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    color: const Color(0x5cffffff),
-                                  ),
-                                  child: Text(
-                                    'option 2',
-                                    style: TextStyle(
-                                      fontFamily: 'Arial',
-                                      fontSize: 23,
-                                      color: const Color(0xff0f4c75),
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                SizedBox(height: 2.0),
-                                Container(
-                                  width: 113.0,
-                                  height: 25.0,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4.0),
-                                    color: const Color(0x5cffffff),
-                                  ),
-                                  child: Text(
-                                    'option4',
-                                    style: TextStyle(
-                                      fontFamily: 'Arial',
-                                      fontSize: 23,
-                                      color: const Color(0xff0f4c75),
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 5.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Score:',
-                              style: TextStyle(
-                                fontFamily: 'Arial',
-                                fontSize: 23,
-                                color: const Color(0xff0f4c75),
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            Container(
-                              width: 254.0,
-                              height: 25.0,
-                              child: Text(
-                                '2/2',
-                                style: TextStyle(
-                                  fontFamily: 'Arial',
-                                  fontSize: 23,
-                                  color: const Color(0xff0f4c75),
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  //############################################### SEPARATOR ###############################################
-                  SizedBox(height: 10.0),
-                  Divider(
-                    color: const Color(0xff1B262C),
-                    height: 1,
-                  ),
-                  SizedBox(height: 10.0),
-                  //############################################ ESSAY CONTAINER ############################################
-                  Container(
-                      child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            'Q2: ESSAY',
-                            style: TextStyle(
-                              fontFamily: 'Arial',
-                              fontSize: 15,
-                              color: const Color(0xff0f4c75),
-                              fontWeight: FontWeight.w900,
-                            ),
-                            textAlign: TextAlign.left,
                           ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Question:',
-                            style: TextStyle(
-                              fontFamily: 'Arial',
-                              fontSize: 23,
-                              color: const Color(0xff0f4c75),
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          Container(
-                            width: 254.0,
-                            height: 25.0,
+                          FlatButton(
                             child: Text(
-                              'bla bla bla:',
+                              'Final Exam',
                               style: TextStyle(
                                 fontFamily: 'Arial',
-                                fontSize: 23,
+                                fontSize: 33,
                                 color: const Color(0xff0f4c75),
+                                fontWeight: FontWeight.w700,
                               ),
                               textAlign: TextAlign.left,
                             ),
+                            onPressed: () {},
                           ),
                         ],
                       ),
-                      SizedBox(height: 5.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Answer:',
-                            style: TextStyle(
-                              fontFamily: 'Arial',
-                              fontSize: 23,
-                              color: const Color(0xff0f4c75),
-                            ),
-                            textAlign: TextAlign.left,
+                      FlatButton(
+                        child: Text(
+                          '18/20',
+                          style: TextStyle(
+                            fontFamily: 'Arial',
+                            fontSize: 25,
+                            color: const Color(0xff0f752a),
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.underline,
                           ),
-                          Container(
-                            width: 254.0,
-                            height: 25.0,
-                            child: Text(
-                              'bla bla bla:',
-                              style: TextStyle(
-                                fontFamily: 'Arial',
-                                fontSize: 23,
-                                color: const Color(0xff0f4c75),
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
+                          textAlign: TextAlign.left,
+                        ),
+                        onPressed: () {},
                       ),
-                      SizedBox(height: 5.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Score:',
-                            style: TextStyle(
-                              fontFamily: 'Arial',
-                              fontSize: 23,
-                              color: const Color(0xff0f4c75),
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          Container(
-                            width: 254.0,
-                            height: 25.0,
-                            child: Text(
-                              '4.5/10',
-                              style: TextStyle(
-                                fontFamily: 'Arial',
-                                fontSize: 23,
-                                color: const Color(0xff0f4c75),
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5.0),
                     ],
-                  )),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              'English / instructor',
+                              style: TextStyle(
+                                fontFamily: 'Arial',
+                                fontSize: 12,
+                                color: const Color(0xff0f4c75),
+                                fontWeight: FontWeight.w900,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+                          FlatButton(
+                            child: Text(
+                              'week 4 quiz',
+                              style: TextStyle(
+                                fontFamily: 'Arial',
+                                fontSize: 33,
+                                color: const Color(0xff0f4c75),
+                                fontWeight: FontWeight.w700,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      FlatButton(
+                        child: Text(
+                          'Take Quiz',
+                          style: TextStyle(
+                            fontFamily: 'Arial',
+                            fontSize: 25,
+                            color: const Color(0xff1b262c),
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.underline,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class MycomboBox extends StatefulWidget {
+  MycomboBox({Key key}) : super(key: key);
+
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MycomboBox> {
+  String dropdownValue = 'One';
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: TextStyle(color: const Color(0xff1b262c)),
+      underline: Container(
+        height: 2,
+        color: const Color(0xff0f4c75),
+      ),
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownValue = newValue;
+        });
+      },
+      items: <String>['One', 'Two', 'Free', 'Four']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }

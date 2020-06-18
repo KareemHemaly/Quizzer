@@ -64,6 +64,7 @@ class _RegistrationState extends State<Registration> {
                         userName = val;
                       });
                     },
+                    
                   ),
                 )
               ],
@@ -97,6 +98,7 @@ class _RegistrationState extends State<Registration> {
                         pass = val;
                       });
                     },
+                    obscureText: true,
                   ),
                 )
               ],
