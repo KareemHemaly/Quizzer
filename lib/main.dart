@@ -5,7 +5,7 @@ import 'package:quizzer/services/auth.dart';
 import 'package:provider/provider.dart';
 
 
-import 'package:quizzer/screens/student/student_new_exam.dart';
+import 'package:quizzer/screens/student/student_exam.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,6 +22,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
          home: Wrapper(),
         // home: StudentNewExam(),
+     //     home: Wrapper(),
         ));
   }
 }
