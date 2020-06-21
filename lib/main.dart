@@ -20,8 +20,8 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<User>.value(
         value: AuthService().user,
         child: MaterialApp(
-     //     home: Wrapper(),
-        home: StudentNewExam(),
+         home: Wrapper(),
+        // home: StudentNewExam(),
         ));
   }
 }

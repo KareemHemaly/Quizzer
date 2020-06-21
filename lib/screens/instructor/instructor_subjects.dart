@@ -15,11 +15,13 @@ class _InstructorSubjectsState extends State<InstructorSubjects> {
   final SubjectService _subjectService = new SubjectService();
   SubjectModel _model = new SubjectModel();
   List<SubjectModel> _subjects = new List<SubjectModel>();
+  bool dataInProgress = true;
 
   getSubjects() async {
     var result = await _subjectService.get();
     setState(() {
       _subjects = result;
+      dataInProgress = false;
     });
   }
 
@@ -32,60 +34,62 @@ class _InstructorSubjectsState extends State<InstructorSubjects> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color(0xffBBE1FA),
-        appBar: AppBar(
-          backgroundColor: const Color(0xff1B262C),
-          title: Center(
-            child: Text(
-              'My Subjects',
-              style: TextStyle(
-                color: const Color(0xff3282B8),
-              ),
+    return Scaffold(
+      backgroundColor: const Color(0xffBBE1FA),
+      appBar: AppBar(
+        backgroundColor: const Color(0xff1B262C),
+        title: Center(
+          child: Text(
+            'My Subjects',
+            style: TextStyle(
+              color: const Color(0xff3282B8),
             ),
           ),
         ),
-        body: Container(
-          margin: const EdgeInsets.all(10.0),
-          child: ListView.builder(
-            itemCount: this._subjects.length ?? 0,
-            itemBuilder: (BuildContext context, index) {
-              return this._subjects == null ? SpinKitWanderingCubes(color: Color(0xff0f4c75)) : Column(
-                children: <Widget>[
-                  FlatButton(
-                    child: Text(
-                      this._subjects[index].name,
-                      style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 33,
-                        color: const Color(0xff0f4c75),
+      ),
+      body: dataInProgress ?  SpinKitDoubleBounce(
+                color: Color(0xff3282B8),
+              ) : Container(
+        child: ListView.builder(
+          itemCount: this._subjects.length ?? 0,
+          itemBuilder: (BuildContext context, index) {
+            return this._subjects == null
+                ? SpinKitWanderingCubes(color: Color(0xff0f4c75))
+                : Column(
+                    children: <Widget>[
+                      FlatButton(
+                        child: Text(
+                          this._subjects[index].name,
+                          style: TextStyle(
+                            fontFamily: 'Arial',
+                            fontSize: 33,
+                            color: const Color(0xff0f4c75),
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => InstructorSubjectsExams(
+                                    subject: this._subjects[index])),
+                          );
+                        },
                       ),
-                      textAlign: TextAlign.left,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => InstructorSubjectsExams()),
-                      );
-                    },
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: const Color(0xff1B262C),
-          child: Icon(
-            Icons.add,
-            color: const Color(0xff3282B8),
-          ),
-          onPressed: () {
-            showModalBottomSheet(context: context, builder: buildBottomSheet);
+                    ],
+                  );
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff1B262C),
+        child: Icon(
+          Icons.add,
+          color: const Color(0xff3282B8),
+        ),
+        onPressed: () {
+          showModalBottomSheet(context: context, builder: buildBottomSheet);
+        },
       ),
     );
   }
