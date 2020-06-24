@@ -14,6 +14,12 @@ class StudentService{
     return models;
   }
 
+  Future<List<StudentSubjectModel>> getStudentSbujectModelByID(studentId) async{
+    var result = await studentSubjectDB.where("studentId", isEqualTo: studentId).getDocuments();
+    List<StudentSubjectModel> models = result.documents.map((e) => StudentSubjectModel.fromMap(e.data, e.documentID)).toList();
+    return models;
+  }
+
   Future<List<UserDetail>> getStudents() async{
     var result = await userDB.where("type",isEqualTo: 'student').getDocuments();
     List<UserDetail> models = result.documents.map((e) => UserDetail.fromMap(e.data, e.documentID)).toList();
