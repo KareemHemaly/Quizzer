@@ -5,7 +5,8 @@ import 'package:quizzer/services/auth.dart';
 import 'package:provider/provider.dart';
 
 
-import 'package:quizzer/screens/student/student_exam.dart';
+import 'package:quizzer/screens/student/student_new_exam.dart';
+//import 'package:quizzer/screens/student/student_results.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,9 +21,9 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<User>.value(
         value: AuthService().user,
         child: MaterialApp(
-         home: Wrapper(),
-        // home: StudentNewExam(),
-     //     home: Wrapper(),
+        // home: Wrapper(),
+         home: StudentNewExam(),
+        //  home: StudentResults(),
         ));
   }
 }
