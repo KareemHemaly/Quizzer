@@ -5,7 +5,6 @@ import 'package:quizzer/screens/instructor/instructor_subjects.dart';
 import 'package:quizzer/services/auth.dart';
 import 'package:quizzer/services/userService.dart';
 
-
 class Registration extends StatefulWidget {
   @override
   _RegistrationState createState() => _RegistrationState();
@@ -64,7 +63,6 @@ class _RegistrationState extends State<Registration> {
                         userName = val;
                       });
                     },
-                    
                   ),
                 )
               ],
@@ -171,11 +169,14 @@ class _RegistrationState extends State<Registration> {
                       this._userDetail.userId = result.uid;
                       this._userDetail.type =
                           this.radioValue == 0 ? "student" : "instructor";
-                      var userRsult =
-                          await this._userService.add(this._userDetail);
-                      if (userRsult != null) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => InstructorSubjects()));
-                      }
+                      this._userService.add(this._userDetail).then((value) {
+                        if (value != null) {
+                          // Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => InstructorSubjects()));
+                        }
+                      });
                     }
                   },
                 )),

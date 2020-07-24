@@ -5,6 +5,7 @@ import 'package:quizzer/screens/Authenticate/login.dart';
 import 'package:quizzer/screens/student/studentWelcomeScreen.dart';
 import 'package:quizzer/screens/student/student_exam.dart';
 import 'package:quizzer/screens/student/student_results.dart';
+import 'package:quizzer/services/userService.dart';
 
 import 'instructor/instructor_subjects.dart';
 
@@ -16,10 +17,20 @@ class Wrapper extends StatefulWidget {
 class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
+    UserService userService = new UserService();
     final user = Provider.of<User>(context);
 
     if (user != null)
-      return InstructorSubjects();
+      userService.getUser(user.uid).then((value) {
+        if (value.type != "instructor") {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => InstructorSubjects()));
+        } else {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => StudentWelcomeScreen()));
+        }
+      });
+    // return InstructorSubjects();
     else
       return Login();
   }
