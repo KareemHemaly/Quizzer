@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quizzer/screens/student/student_new_exam.dart';
 import 'package:quizzer/screens/student/student_results.dart';
-
-
+import 'package:quizzer/services/auth.dart';
 
 class StudentWelcomeScreen extends StatelessWidget {
+  AuthService _authService = new AuthService();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,8 +25,7 @@ class StudentWelcomeScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                height:300.0,
-                child: Image.asset('assets/images/logo.png')),
+                  height: 300.0, child: Image.asset('assets/images/logo.png')),
               Container(
                 width: 270.0,
                 height: 53.0,
@@ -38,8 +37,7 @@ class StudentWelcomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => StudentResults()),
+                      MaterialPageRoute(builder: (context) => StudentResults()),
                     );
                   },
                   child: Text(
@@ -65,8 +63,7 @@ class StudentWelcomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => StudentNewExam()),
+                      MaterialPageRoute(builder: (context) => StudentNewExam()),
                     );
                   },
                   child: Text(
@@ -81,16 +78,21 @@ class StudentWelcomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 50.0),
-              Text(
-                'LOGOUT',
-                style: TextStyle(
-                  fontFamily: 'Arial',
-                  fontSize: 14,
-                  color: const Color(0xffbbe1fa),
-                  fontWeight: FontWeight.w700,
-                  decoration: TextDecoration.underline,
+              FlatButton(
+                onPressed: () {
+                  _authService.signOut();
+                },
+                child: Text(
+                  'LOGOUT',
+                  style: TextStyle(
+                    fontFamily: 'Arial',
+                    fontSize: 14,
+                    color: const Color(0xffbbe1fa),
+                    fontWeight: FontWeight.w700,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
-              ),
+              )
             ],
           ),
         ),

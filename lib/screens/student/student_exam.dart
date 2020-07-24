@@ -21,7 +21,7 @@ class StudentExam extends StatelessWidget {
             ),
           ),
         ),
-        body: Column(
+        body: ListView(
           children: <Widget>[
             Container(
               width: 360.0,

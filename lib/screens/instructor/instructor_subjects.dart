@@ -156,7 +156,7 @@ class _InstructorSubjectsState extends State<InstructorSubjects> {
                         ),
                         child: FlatButton(
                           onPressed: () async {
-                            if (!_subjectName.isEmpty) {
+                            if (_subjectName.isNotEmpty) {
                               _model.name = _subjectName;
                               var result = await _subjectService.add(_model);
                               if (result != null) {

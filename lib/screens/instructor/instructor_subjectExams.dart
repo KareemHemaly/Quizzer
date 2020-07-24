@@ -34,7 +34,6 @@ class _InstructorSubjectsExamsState extends State<InstructorSubjectsExams> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     this.getExams();
   }
@@ -52,62 +51,66 @@ class _InstructorSubjectsExamsState extends State<InstructorSubjectsExams> {
           ),
         ),
       ),
-      body: dataInProgress ?  SpinKitDoubleBounce(
-                color: Color(0xff3282B8),
-              ) : ListView.builder(
-          itemCount: _exams.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: dataInProgress
+          ? SpinKitDoubleBounce(
+              color: Color(0xff3282B8),
+            )
+          : ListView.builder(
+              itemCount: _exams.length,
+              itemBuilder: (context, index) {
+                return Column(
                   children: <Widget>[
-                    Flexible(
-                      child: ListTile(
-                        title: Text(
-                          _exams[index].name,
-                          style: TextStyle(
-                            fontFamily: 'Arial',
-                            fontSize: 33,
-                            color: const Color(0xff0f4c75),
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        subtitle: Text(_exams[index].description),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => InstructorViewExam(),
-                              ));
-                        },
-                        trailing: FlatButton(
-                          child: Text(
-                            'RESULTS',
-                            style: TextStyle(
-                              fontFamily: 'Arial',
-                              fontSize: 14,
-                              color: const Color(0xff1b262c),
-                              fontWeight: FontWeight.w700,
-                              decoration: TextDecoration.underline,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          child: ListTile(
+                            title: Text(
+                              _exams[index].name,
+                              style: TextStyle(
+                                fontFamily: 'Arial',
+                                fontSize: 33,
+                                color: const Color(0xff0f4c75),
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            textAlign: TextAlign.left,
+                            subtitle: Text(_exams[index].description),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => InstructorViewExam(),
+                                  ));
+                            },
+                            trailing: FlatButton(
+                              child: Text(
+                                'RESULTS',
+                                style: TextStyle(
+                                  fontFamily: 'Arial',
+                                  fontSize: 14,
+                                  color: const Color(0xff1b262c),
+                                  fontWeight: FontWeight.w700,
+                                  decoration: TextDecoration.underline,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          InstructorExamGrades(
+                                              exam: _exams[index]),
+                                    ));
+                              },
+                            ),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => InstructorExamGrades(exam: _exams[index]),
-                                ));
-                          },
                         ),
-                      ),
+                      ],
                     ),
                   ],
-                ),
-              ],
-            );
-          }),
+                );
+              }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff1B262C),
         child: Icon(
@@ -115,10 +118,10 @@ class _InstructorSubjectsExamsState extends State<InstructorSubjectsExams> {
           color: const Color(0xff3282B8),
         ),
         onPressed: () {
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => InstructorNewExam(),
+                builder: (context) => InstructorNewExam(widget.subject.id),
               ));
         },
       ),

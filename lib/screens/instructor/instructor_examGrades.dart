@@ -35,7 +35,9 @@ class _InstructorExamGradesState extends State<InstructorExamGrades> {
         dataInProgress = false;
       });
     }
-
+    setState(() {
+      dataInProgress = false;
+    });
   }
 
   @override
@@ -60,77 +62,79 @@ class _InstructorExamGradesState extends State<InstructorExamGrades> {
           ),
         ),
       ),
-      body: dataInProgress ?  SpinKitDoubleBounce(
-                color: Color(0xff3282B8),
-              ) :ListView.builder(
-          itemCount: studentsScore.length ?? 0,
-          itemBuilder: (context, index) {
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  title: Text(
-                    studentsScore[index].student.userName,
-                    style: TextStyle(
-                      fontFamily: 'Arial',
-                      fontSize: 33,
-                      color: const Color(0xff0f4c75),
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  trailing: FlatButton(
-                    child: Text(
-                      studentsScore[index].studentSubject.score.toString() +
-                          "/" +
-                          studentsScore[index].exam.maxScore.toString(),
-                      style: TextStyle(
-                        fontFamily: 'Arial',
-                        fontSize: 20,
-                        color: studentsScore[index].studentSubject.score <
-                                studentsScore[index].exam.maxScore / 2
-                            ? Color(0xffab1a1a)
-                            : Color(0xff0f752a),
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.underline,
+      body: dataInProgress
+          ? SpinKitDoubleBounce(
+              color: Color(0xff3282B8),
+            )
+          : ListView.builder(
+              itemCount: studentsScore.length ?? 0,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text(
+                        studentsScore[index].student.userName,
+                        style: TextStyle(
+                          fontFamily: 'Arial',
+                          fontSize: 33,
+                          color: const Color(0xff0f4c75),
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.left,
+                      trailing: FlatButton(
+                        child: Text(
+                          studentsScore[index].studentSubject.score.toString() +
+                              "/" +
+                              studentsScore[index].exam.maxScore.toString(),
+                          style: TextStyle(
+                            fontFamily: 'Arial',
+                            fontSize: 20,
+                            color: studentsScore[index].studentSubject.score <
+                                    studentsScore[index].exam.maxScore / 2
+                                ? Color(0xffab1a1a)
+                                : Color(0xff0f752a),
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.underline,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        onPressed: () {},
+                      ),
                     ),
-                    onPressed: () {},
-                  ),
-                ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: <Widget>[
-                //     FlatButton(
-                //       child: Text(
-                //         'student2',
-                //         style: TextStyle(
-                //           fontFamily: 'Arial',
-                //           fontSize: 33,
-                //           color: const Color(0xff0f4c75),
-                //         ),
-                //         textAlign: TextAlign.left,
-                //       ),
-                //       onPressed: () {},
-                //     ),
-                //     FlatButton(
-                //       child: Text(
-                //         '7/20',
-                //         style: TextStyle(
-                //           fontFamily: 'Arial',
-                //           fontSize: 14,
-                //           color: const Color(0xffab1a1a),
-                //           fontWeight: FontWeight.w700,
-                //           decoration: TextDecoration.underline,
-                //         ),
-                //         textAlign: TextAlign.left,
-                //       ),
-                //       onPressed: () {},
-                //     ),
-                //   ],
-                // ),
-              ],
-            );
-          }),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     FlatButton(
+                    //       child: Text(
+                    //         'student2',
+                    //         style: TextStyle(
+                    //           fontFamily: 'Arial',
+                    //           fontSize: 33,
+                    //           color: const Color(0xff0f4c75),
+                    //         ),
+                    //         textAlign: TextAlign.left,
+                    //       ),
+                    //       onPressed: () {},
+                    //     ),
+                    //     FlatButton(
+                    //       child: Text(
+                    //         '7/20',
+                    //         style: TextStyle(
+                    //           fontFamily: 'Arial',
+                    //           fontSize: 14,
+                    //           color: const Color(0xffab1a1a),
+                    //           fontWeight: FontWeight.w700,
+                    //           decoration: TextDecoration.underline,
+                    //         ),
+                    //         textAlign: TextAlign.left,
+                    //       ),
+                    //       onPressed: () {},
+                    //     ),
+                    //   ],
+                    // ),
+                  ],
+                );
+              }),
     );
   }
 }
