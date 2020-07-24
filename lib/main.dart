@@ -4,10 +4,6 @@ import 'package:quizzer/screens/wrapper.dart';
 import 'package:quizzer/services/auth.dart';
 import 'package:provider/provider.dart';
 
-
-import 'package:quizzer/screens/student/student_new_exam.dart';
-//import 'package:quizzer/screens/student/student_results.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -21,9 +17,9 @@ class _MyAppState extends State<MyApp> {
     return StreamProvider<User>.value(
         value: AuthService().user,
         child: MaterialApp(
-        // home: Wrapper(),
-         home: StudentNewExam(),
-        //  home: StudentResults(),
+          // home: Wrapper(),
+          home: Wrapper(),
+          //  home: StudentResults(),
         ));
   }
 }

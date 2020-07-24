@@ -3,6 +3,7 @@ import 'package:quizzer/models/examModel.dart';
 import 'package:quizzer/models/studentSubjectModel.dart';
 import 'package:quizzer/models/subject.dart';
 import 'package:quizzer/models/userDetailModel.dart';
+import 'package:quizzer/screens/student/student_exam.dart';
 import 'package:quizzer/services/examService.dart';
 import 'package:quizzer/services/instructorService.dart';
 import 'package:quizzer/services/studentService.dart';
@@ -17,12 +18,6 @@ class StudentNewExam extends StatefulWidget {
 }
 
 class _StudentNewExamState extends State<StudentNewExam> {
-
-
-
-
-
-
   //INSTRUCTOR
   final InstructorsService _instructorsService = new InstructorsService();
   List<UserDetail> _instructors = new List<UserDetail>();
@@ -42,10 +37,9 @@ class _StudentNewExamState extends State<StudentNewExam> {
   List<ExamModel> _exams = new List<ExamModel>();
   List<ExamModel> filteredexams = new List<ExamModel>();
 
- //student
+  //student
   final StudentService _studentExamService = new StudentService();
   List<StudentSubjectModel> _studentExams = new List<StudentSubjectModel>();
-
 
   getDropdownsData() async {
     _instructorsService.getInstructors().then((value) => {
@@ -62,27 +56,23 @@ class _StudentNewExamState extends State<StudentNewExam> {
             subjectNames = _subjects.map((e) => e.name).toList();
           })
         });
-
-    
-
-
   }
 
-  getExamData()
-  {
+  getExamData() {
     _examService.get().then((data) => {
           this.setState(() {
             _exams = data;
           })
         });
 
-        _studentExamService.getStudentSbujectModelByID('hRgc93UwVD6horldHVHZ').then((value) => {
-          setState(() {
-            _studentExams = value;
-          })
-        });
+    _studentExamService
+        .getStudentSbujectModelByID('hRgc93UwVD6horldHVHZ')
+        .then((value) => {
+              setState(() {
+                _studentExams = value;
+              })
+            });
   }
-
 
   // getSubjects(String userName) async {
   //   setState(() async {
@@ -129,29 +119,30 @@ class _StudentNewExamState extends State<StudentNewExam> {
       subjectNames = filteredSubjects.map((e) => e.name).toList();
     });
     subjectChanged(subjectNames[0]);
-    subjectChanged('Math');
+    // subjectChanged('Math');
   }
 
-    List<StudentScoreViewModel> scoreViewModel = new List<StudentScoreViewModel>();
+  List<StudentScoreViewModel> scoreViewModel =
+      new List<StudentScoreViewModel>();
 
   subjectChanged(String subjectName) {
     var subjectId =
         _subjects.firstWhere((element) => element.name == subjectName).id;
-StudentScoreViewModel st ;
-    
+    StudentScoreViewModel st;
+
     setState(() {
       filteredexams = new List<ExamModel>();
       filteredexams =
           _exams.where((element) => element.subjectId == subjectId).toList();
 
-          scoreViewModel  = new List<StudentScoreViewModel>();
-      //  subjectNames = new List<String>();
-      //  subjectNames = filteredSubjects.map((e) => e.name).toList();
+      scoreViewModel = new List<StudentScoreViewModel>();
     });
     for (var item in filteredexams) {
-      st = new StudentScoreViewModel(); 
+      st = new StudentScoreViewModel();
       st.exam = item;
-      st.studentSubject = _studentExams.firstWhere((element) => element.examId == item.id, orElse: ()=>null) ;
+      st.studentSubject = _studentExams.firstWhere(
+          (element) => element.examId == item.id,
+          orElse: () => null);
       setState(() {
         scoreViewModel.add(st);
       });
@@ -194,6 +185,7 @@ StudentScoreViewModel st ;
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                        padding: EdgeInsets.fromLTRB(0, 0, 20.0, 0),
                         child: Text(
                           'Instructor:',
                           style: TextStyle(
@@ -205,9 +197,11 @@ StudentScoreViewModel st ;
                           textAlign: TextAlign.left,
                         ),
                       ),
-                      Container(
-                          child:
-                              MycomboBox(instructorNames, instructorChanged)),
+                      Expanded(
+                        child: Container(
+                            child:
+                                MycomboBox(instructorNames, instructorChanged)),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -217,6 +211,7 @@ StudentScoreViewModel st ;
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
+                        padding: EdgeInsets.fromLTRB(0, 0, 35.0, 0),
                         child: Text(
                           'Subject:',
                           style: TextStyle(
@@ -228,74 +223,96 @@ StudentScoreViewModel st ;
                           textAlign: TextAlign.left,
                         ),
                       ),
-                      Container(
-                          child: MycomboBox(subjectNames, subjectChanged)),
+                      Expanded(
+                        child: Container(
+                            child: MycomboBox(subjectNames, subjectChanged)),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
             Flexible(
-                          child: Container(
+              child: Container(
                 margin: const EdgeInsets.all(10.0),
                 child: ListView.builder(
-          itemCount: this.scoreViewModel.length ?? 0,
-          itemBuilder: (BuildContext context, index) {
-              return this._exams == null
-                  ? SpinKitWanderingCubes(color: Color(0xff0f4c75))
-                  : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              FlatButton(
-                                child: Text(
-                                 this.scoreViewModel[index].exam.name,
-                                  style: TextStyle(
-                                    fontFamily: 'Arial',
-                                    fontSize: 20,
-                                    color: const Color(0xff0f4c75),
-                                    fontWeight: FontWeight.w700,
+                    itemCount: this.scoreViewModel.length ?? 0,
+                    itemBuilder: (BuildContext context, index) {
+                      return this._exams == null
+                          ? SpinKitWanderingCubes(color: Color(0xff0f4c75))
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                FlatButton(
+                                  child: Text(
+                                    this.scoreViewModel[index].exam.name,
+                                    style: TextStyle(
+                                      fontFamily: 'Arial',
+                                      fontSize: 20,
+                                      color: const Color(0xff0f4c75),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.left,
                                   ),
-                                  textAlign: TextAlign.left,
+                                  onPressed: () {},
                                 ),
-                                onPressed: () {},
-                              ),
-                              scoreViewModel[index].studentSubject == null ?
-                              FlatButton(
-                                child: Text(
-                                   'Take Exam' ,
-                               //   scoreViewModel[index].studentSubject.score.toString() + '/' + scoreViewModel[index].exam.maxScore.toString(),
-                                  //_studentExams.firstWhere((element) => element.examId == this.filteredexams[index].id).score.toString() + '/' + this.filteredexams[index].maxScore.toString() ,
-                                  style: TextStyle(
-                                    fontFamily: 'Arial',
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                onPressed: () {},
-                              )
-                              :
-                              Text(
-                                  // 'Take Exam' ,
-                                 scoreViewModel[index].studentSubject.score.toString() + '/' + scoreViewModel[index].exam.maxScore.toString(),
-                                  //_studentExams.firstWhere((element) => element.examId == this.filteredexams[index].id).score.toString() + '/' + this.filteredexams[index].maxScore.toString() ,
-                                  style: TextStyle(
-                                    fontFamily: 'Arial',
-                                    fontSize: 20,
-                                    color: scoreViewModel[index].studentSubject.score < (scoreViewModel[index].exam.maxScore / 2)
-                            ? Color(0xffab1a1a)
-                            : Color(0xff0f752a),
-                                    fontWeight: FontWeight.w700,
-                                    
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                            ],
-                          );
-                  }),
-                
+                                scoreViewModel[index].studentSubject == null
+                                    ? FlatButton(
+                                        child: Text(
+                                          'Take Exam',
+                                          //   scoreViewModel[index].studentSubject.score.toString() + '/' + scoreViewModel[index].exam.maxScore.toString(),
+                                          //_studentExams.firstWhere((element) => element.examId == this.filteredexams[index].id).score.toString() + '/' + this.filteredexams[index].maxScore.toString() ,
+                                          style: TextStyle(
+                                            fontFamily: 'Arial',
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StudentExam(this
+                                                          .scoreViewModel[index]
+                                                          .exam)));
+                                        },
+                                      )
+                                    : Text(
+                                        // 'Take Exam' ,
+                                        scoreViewModel[index]
+                                                .studentSubject
+                                                .score
+                                                .toString() +
+                                            '/' +
+                                            scoreViewModel[index]
+                                                .exam
+                                                .maxScore
+                                                .toString(),
+                                        //_studentExams.firstWhere((element) => element.examId == this.filteredexams[index].id).score.toString() + '/' + this.filteredexams[index].maxScore.toString() ,
+                                        style: TextStyle(
+                                          fontFamily: 'Arial',
+                                          fontSize: 20,
+                                          color: scoreViewModel[index]
+                                                      .studentSubject
+                                                      .score <
+                                                  (scoreViewModel[index]
+                                                          .exam
+                                                          .maxScore /
+                                                      2)
+                                              ? Color(0xffab1a1a)
+                                              : Color(0xff0f752a),
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                              ],
+                            );
+                    }),
               ),
             ),
           ],
@@ -317,19 +334,26 @@ class MycomboBox extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MycomboBox> {
   String dropdownValue = 'none';
-
+  // List<DropdownMenuItem<String>> inistialvalue =
+  //     new List<DropdownMenuItem<String>>();
   @override
   void initState() {
     super.initState();
     setState(() {
       dropdownValue = widget.strs[0];
+
+      // if (inistialvalue.length == 0) {
+      //   inistialvalue.add(new DropdownMenuItem(child: Text("No Data")));
+      // }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      value: dropdownValue,
+      value: widget.strs.contains(dropdownValue)
+          ? dropdownValue
+          : widget.strs.length > 0 ? widget.strs[0] : dropdownValue,
       icon: Icon(Icons.arrow_downward),
       elevation: 16,
       style: TextStyle(color: const Color(0xff1b262c)),

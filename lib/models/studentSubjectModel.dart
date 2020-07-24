@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:core';
 
 import 'package:quizzer/models/QuestionScoreModel.dart';
@@ -23,7 +24,7 @@ class StudentSubjectModel {
       "score": score,
       "studentId": studentId,
       "subjectId": subjectId,
-      "questionsScore": questionsScore,
+      "questionsScore": jsonEncode(questionsScore),
     };
   }
 

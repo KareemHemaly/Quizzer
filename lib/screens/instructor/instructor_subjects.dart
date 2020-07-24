@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:quizzer/models/subject.dart';
+import 'package:quizzer/services/auth.dart';
 import 'package:quizzer/services/subjectService.dart';
 
 import 'instructor_subjectExams.dart';
@@ -16,6 +17,7 @@ class _InstructorSubjectsState extends State<InstructorSubjects> {
   SubjectModel _model = new SubjectModel();
   List<SubjectModel> _subjects = new List<SubjectModel>();
   bool dataInProgress = true;
+  final AuthService _authService = new AuthService();
 
   getSubjects() async {
     var result = await _subjectService.get();
@@ -47,50 +49,99 @@ class _InstructorSubjectsState extends State<InstructorSubjects> {
           ),
         ),
       ),
-      body: dataInProgress ?  SpinKitDoubleBounce(
-                color: Color(0xff3282B8),
-              ) : Container(
-        child: ListView.builder(
-          itemCount: this._subjects.length ?? 0,
-          itemBuilder: (BuildContext context, index) {
-            return this._subjects == null
-                ? SpinKitWanderingCubes(color: Color(0xff0f4c75))
-                : Column(
-                    children: <Widget>[
-                      FlatButton(
-                        child: Text(
-                          this._subjects[index].name,
-                          style: TextStyle(
-                            fontFamily: 'Arial',
-                            fontSize: 33,
-                            color: const Color(0xff0f4c75),
+      body: dataInProgress
+          ? SpinKitDoubleBounce(
+              color: Color(0xff3282B8),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    child: ListView.builder(
+                      itemCount: this._subjects.length ?? 0,
+                      itemBuilder: (BuildContext context, index) {
+                        return this._subjects == null
+                            ? SpinKitWanderingCubes(color: Color(0xff0f4c75))
+                            : Column(
+                                children: <Widget>[
+                                  FlatButton(
+                                    child: Text(
+                                      this._subjects[index].name,
+                                      style: TextStyle(
+                                        fontFamily: 'Arial',
+                                        fontSize: 33,
+                                        color: const Color(0xff0f4c75),
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                InstructorSubjectsExams(
+                                                    subject:
+                                                        this._subjects[index])),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                      },
+                    ),
+                  ),
+                ),
+                BottomAppBar(
+                  color: const Color(0xffBBE1FA),
+                  child: Container(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: FloatingActionButton(
+                            backgroundColor: const Color(0xff0f752a),
+                            heroTag: "btn1",
+                            child: Icon(
+                              Icons.arrow_right,
+                              color: const Color(0xffBBE1FA),
+                            ),
+                            onPressed: () async {
+                              await _authService.signOut();
+                            },
                           ),
-                          textAlign: TextAlign.left,
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => InstructorSubjectsExams(
-                                    subject: this._subjects[index])),
-                          );
-                        },
-                      ),
-                    ],
-                  );
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff1B262C),
-        child: Icon(
-          Icons.add,
-          color: const Color(0xff3282B8),
-        ),
-        onPressed: () {
-          showModalBottomSheet(context: context, builder: buildBottomSheet);
-        },
-      ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: FloatingActionButton(
+                            heroTag: "btn2",
+                            backgroundColor: const Color(0xff1B262C),
+                            child: Icon(
+                              Icons.add,
+                              color: const Color(0xff3282B8),
+                            ),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context, builder: buildBottomSheet);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: const Color(0xff1B262C),
+      //   child: Icon(
+      //     Icons.add,
+      //     color: const Color(0xff3282B8),
+      //   ),
+      //   onPressed: () {
+      //     showModalBottomSheet(context: context, builder: buildBottomSheet);
+      //   },
+      // ),
     );
   }
 

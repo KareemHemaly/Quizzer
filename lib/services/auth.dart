@@ -1,5 +1,3 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:quizzer/models/userModel.dart';
 
@@ -10,7 +8,12 @@ class AuthService {
     return user != null ? User(uid: user.uid) : null;
   }
 
-  Stream<User> currentUSer(){
+  Future<String> getCurrentUser() async {
+    FirebaseUser user = await _auth.currentUser();
+    return user.uid;
+  }
+
+  Stream<User> currentUSer() {
     return Stream.fromFuture(_auth.currentUser()).map(_userFromFirebaseUser);
   }
 
@@ -46,11 +49,11 @@ class AuthService {
 
   Future registerWithEmailAndPassword(String email, String password) async {
     try {
-          print("registiration with email= $email and password= $password");
+      print("registiration with email= $email and password= $password");
 
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-          print(result);
+      print(result);
       FirebaseUser user = result.user;
 
       return _userFromFirebaseUser(user);
@@ -60,12 +63,13 @@ class AuthService {
     }
   }
 
-  Future regiseterWithUserNameAndPassword(String username, String password) async {
+  Future regiseterWithUserNameAndPassword(
+      String username, String password) async {
     try {
       username += "@gmail.com";
-       AuthResult result = await _auth.createUserWithEmailAndPassword(
+      AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: username, password: password);
-          print(result);
+      print(result);
       FirebaseUser user = result.user;
 
       return _userFromFirebaseUser(user);

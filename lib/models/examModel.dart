@@ -7,7 +7,7 @@ class ExamModel {
   String name;
   String description;
   int maxScore;
-  List<dynamic> questions;
+  List<QuestionModel> questions;
   String subjectId;
 
   ExamModel({this.maxScore, this.questions, this.subjectId});
@@ -27,7 +27,7 @@ class ExamModel {
         maxScore = snapShot["maxScore"] ?? 0,
         subjectId = snapShot["subjectId"] ?? '',
         name = snapShot["name"] ?? '',
-        questions = jsonDecode(snapShot["questions"])  ?? [],
+        questions = mapQuestions(jsonDecode(snapShot["questions"])) ?? [],
         description = snapShot["description"] ?? '';
 
   static List<QuestionModel> mapQuestions(snapshot) {
@@ -38,5 +38,6 @@ class ExamModel {
       }
       return model;
     }
+    return [];
   }
 }

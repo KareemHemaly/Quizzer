@@ -4,7 +4,6 @@ import 'package:quizzer/models/questionModel.dart';
 import 'package:quizzer/screens/instructor/instructor_subjects.dart';
 import 'package:quizzer/services/examService.dart';
 
-import 'instructor_subjectExams.dart';
 
 class InstructorNewExamCont extends StatefulWidget {
   final ExamModel examModel;

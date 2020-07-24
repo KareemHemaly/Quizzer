@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:quizzer/models/userModel.dart';
 import 'package:quizzer/screens/Authenticate/login.dart';
 import 'package:quizzer/screens/student/studentWelcomeScreen.dart';
-import 'package:quizzer/screens/student/student_exam.dart';
-import 'package:quizzer/screens/student/student_results.dart';
 import 'package:quizzer/services/userService.dart';
 
 import 'instructor/instructor_subjects.dart';
@@ -20,17 +18,20 @@ class _WrapperState extends State<Wrapper> {
     UserService userService = new UserService();
     final user = Provider.of<User>(context);
 
-    if (user != null)
+    if (user != null) {
       userService.getUser(user.uid).then((value) {
-        if (value.type != "instructor") {
+        if (value.type == "instructor") {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => InstructorSubjects()));
         } else {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => StudentWelcomeScreen()));
+          // return StudentWelcomeScreen();
         }
       });
-    // return InstructorSubjects();
+      return Login();
+    }
+    // return StudentWelcomeScreen();
     else
       return Login();
   }

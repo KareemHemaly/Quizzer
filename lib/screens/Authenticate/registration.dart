@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzer/Theme/theme.dart';
 import 'package:quizzer/models/userDetailModel.dart';
-import 'package:quizzer/screens/instructor/instructor_subjects.dart';
 import 'package:quizzer/services/auth.dart';
 import 'package:quizzer/services/userService.dart';
 

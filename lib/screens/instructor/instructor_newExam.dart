@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quizzer/models/examModel.dart';
-import 'package:quizzer/services/examService.dart';
 
 import 'instructor_newExamCont.dart';
 
@@ -14,11 +13,9 @@ class InstructorNewExam extends StatefulWidget {
 
 class _InstructorNewExamState extends State<InstructorNewExam> {
   ExamModel _examModel = new ExamModel();
-  final ExamService _examService = new ExamService();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       _examModel.subjectId = widget.subjectId;
