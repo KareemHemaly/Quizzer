@@ -19,20 +19,23 @@ class _WrapperState extends State<Wrapper> {
     final user = Provider.of<User>(context);
 
     if (user != null) {
-      userService.getUser(user.uid).then((value) {
-        if (value.type == "instructor") {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => InstructorSubjects()));
-        } else {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => StudentWelcomeScreen()));
-          // return StudentWelcomeScreen();
-        }
-      });
-      return Login();
+      Future.delayed(Duration(seconds: 2)).then((value) => {
+            userService.getUser(user.uid).then((value) {
+              if (value.type == "instructor") {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => InstructorSubjects()));
+              } else {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => StudentWelcomeScreen()));
+                // return StudentWelcomeScreen();
+              }
+            })
+          });
     }
-    // return StudentWelcomeScreen();
-    else
-      return Login();
+    return Login();
   }
 }

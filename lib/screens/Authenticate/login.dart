@@ -118,12 +118,12 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     var result = await _authService.signInWithEmailAndPassword(
                         this.userName, this.pass);
-                    if (result != null) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => InstructorSubjects()));
-                    }
+                    // if (result != null) {
+                    //   Navigator.push(
+                    //       context,
+                    //       MaterialPageRoute(
+                    //           builder: (context) => InstructorSubjects()));
+                    // }
                   },
                 )),
             Container(
