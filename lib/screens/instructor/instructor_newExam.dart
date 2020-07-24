@@ -31,7 +31,7 @@ class _InstructorNewExamState extends State<InstructorNewExam> {
           backgroundColor: const Color(0xff0F4C75),
           title: Center(
             child: Text(
-              'Subject: "English"',
+              "Add Exam",
               style: TextStyle(
                 color: const Color(0xffBBE1FA),
               ),

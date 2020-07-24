@@ -79,7 +79,7 @@ class _InstructorSubjectsExamsState extends State<InstructorSubjectsExams> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => InstructorViewExam(),
+                                    builder: (context) => InstructorViewExam(_exams[index]),
                                   ));
                             },
                             trailing: FlatButton(

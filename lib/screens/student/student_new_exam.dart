@@ -23,6 +23,8 @@ class _StudentNewExamState extends State<StudentNewExam> {
   List<UserDetail> _instructors = new List<UserDetail>();
   bool dataInProgress = true;
   List<String> instructorNames = [];
+  String selectedSubject = "No Subjects";
+  String selectedInstructor = 'Select Instructor';
   getInstractors() async {}
 
   //subjects
@@ -46,6 +48,7 @@ class _StudentNewExamState extends State<StudentNewExam> {
           setState(() {
             _instructors = value;
             instructorNames = _instructors.map((e) => e.userName).toList();
+            instructorNames.add("Select Instructor");
             dataInProgress = false;
           })
         });
@@ -54,6 +57,7 @@ class _StudentNewExamState extends State<StudentNewExam> {
           this.setState(() {
             _subjects = data;
             subjectNames = _subjects.map((e) => e.name).toList();
+            subjectNames.add("No Subjects");
           })
         });
   }
@@ -74,77 +78,77 @@ class _StudentNewExamState extends State<StudentNewExam> {
             });
   }
 
-  // getSubjects(String userName) async {
-  //   setState(() async {
-  //     String _intructorID;
-  //     for (var i = 0; i < _instructors.length; i++) {
-  //       if (userName == _instructors[i].userName) {
-  //         _intructorID = _instructors[i].id;
-  //       }
-  //     }
-
-  //     var result = await _subjectService.getByinstId(_intructorID);
-  //     _subjects = result;
-  //     for (var i = 0; i < _subjects.length; i++) {
-  //       subjectNames.add(_subjects[i].name);
-  //       print(subjectNames[i]);
-  //     }
-
-  //     dataInProgress = false;
-  //   });
-  // }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // getInstractors();
+    instructorNames.add("Select Instructor");
+    subjectNames.add("No Subjects");
     getDropdownsData();
     getExamData();
-
-    // getSubjects('KareemHemaly');
   }
 
   instructorChanged(String instructorName) {
-    var instructorId = _instructors
-        .firstWhere((element) => element.userName == instructorName)
-        .id;
+    if (instructorName == "Select Instructor") {
+      setState(() {
+        filteredSubjects = new List<SubjectModel>();
+        subjectNames = new List<String>();
+        subjectNames.add("No Subjects");
+        selectedSubject = subjectNames[0];
+      });
+      subjectChanged(subjectNames[0]);
+    } else {
+      var instructorId = _instructors
+          .firstWhere((element) => element.userName == instructorName)
+          .id;
 
-    setState(() {
-      filteredSubjects = new List<SubjectModel>();
-      filteredSubjects = _subjects
-          .where((element) => element.instructorId == instructorId)
-          .toList();
-      subjectNames = new List<String>();
-      subjectNames = filteredSubjects.map((e) => e.name).toList();
-    });
-    subjectChanged(subjectNames[0]);
-    // subjectChanged('Math');
+      setState(() {
+        filteredSubjects = new List<SubjectModel>();
+        filteredSubjects = _subjects
+            .where((element) => element.instructorId == instructorId)
+            .toList();
+        subjectNames = new List<String>();
+        subjectNames = filteredSubjects.map((e) => e.name).toList();
+      });
+      setState(() {
+        if (subjectNames.length == 0) {
+          subjectNames.add("No Subjects");
+        }
+        selectedSubject = subjectNames[0];
+      });
+      subjectChanged(subjectNames[0]);
+    }
   }
 
   List<StudentScoreViewModel> scoreViewModel =
       new List<StudentScoreViewModel>();
 
   subjectChanged(String subjectName) {
-    var subjectId =
-        _subjects.firstWhere((element) => element.name == subjectName).id;
-    StudentScoreViewModel st;
+    if (subjectName != "No Subjects") {
+      var subjectId =
+          _subjects.firstWhere((element) => element.name == subjectName).id;
+      StudentScoreViewModel st;
 
-    setState(() {
-      filteredexams = new List<ExamModel>();
-      filteredexams =
-          _exams.where((element) => element.subjectId == subjectId).toList();
-
-      scoreViewModel = new List<StudentScoreViewModel>();
-    });
-    for (var item in filteredexams) {
-      st = new StudentScoreViewModel();
-      st.exam = item;
-      st.studentSubject = _studentExams.firstWhere(
-          (element) => element.examId == item.id,
-          orElse: () => null);
       setState(() {
-        scoreViewModel.add(st);
+        filteredexams = new List<ExamModel>();
+        filteredexams =
+            _exams.where((element) => element.subjectId == subjectId).toList();
+
+        scoreViewModel = new List<StudentScoreViewModel>();
+      });
+      for (var item in filteredexams) {
+        st = new StudentScoreViewModel();
+        st.exam = item;
+        st.studentSubject = _studentExams.firstWhere(
+            (element) => element.examId == item.id,
+            orElse: () => null);
+        setState(() {
+          scoreViewModel.add(st);
+        });
+      }
+    } else {
+      setState(() {
+        filteredexams = new List<ExamModel>();
+        scoreViewModel = new List<StudentScoreViewModel>();
       });
     }
   }
@@ -198,10 +202,30 @@ class _StudentNewExamState extends State<StudentNewExam> {
                         ),
                       ),
                       Expanded(
-                        child: Container(
-                            child:
-                                MycomboBox(instructorNames, instructorChanged)),
-                      ),
+                          child: Container(
+                              child: DropdownButton<String>(
+                        value: selectedInstructor,
+                        icon: Icon(Icons.arrow_downward),
+                        elevation: 16,
+                        style: TextStyle(color: const Color(0xff1b262c)),
+                        underline: Container(
+                          height: 2,
+                          color: const Color(0xff0f4c75),
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            selectedInstructor = newValue;
+                          });
+                          instructorChanged(newValue);
+                        },
+                        items: instructorNames
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ))),
                     ],
                   ),
                   SizedBox(
@@ -225,7 +249,29 @@ class _StudentNewExamState extends State<StudentNewExam> {
                       ),
                       Expanded(
                         child: Container(
-                            child: MycomboBox(subjectNames, subjectChanged)),
+                            child: DropdownButton<String>(
+                          value: selectedSubject,
+                          icon: Icon(Icons.arrow_downward),
+                          elevation: 16,
+                          style: TextStyle(color: const Color(0xff1b262c)),
+                          underline: Container(
+                            height: 2,
+                            color: const Color(0xff0f4c75),
+                          ),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              selectedSubject = newValue;
+                            });
+                            subjectChanged(newValue);
+                          },
+                          items: subjectNames
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        )),
                       ),
                     ],
                   ),
@@ -318,61 +364,6 @@ class _StudentNewExamState extends State<StudentNewExam> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class MycomboBox extends StatefulWidget {
-  final List<String> strs;
-  //final int flag;
-  final Function(String) dropdownChanged;
-  MycomboBox(this.strs, this.dropdownChanged, {Key key}) : super(key: key);
-
-  @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MycomboBox> {
-  String dropdownValue = 'none';
-  // List<DropdownMenuItem<String>> inistialvalue =
-  //     new List<DropdownMenuItem<String>>();
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      dropdownValue = widget.strs[0];
-
-      // if (inistialvalue.length == 0) {
-      //   inistialvalue.add(new DropdownMenuItem(child: Text("No Data")));
-      // }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: widget.strs.contains(dropdownValue)
-          ? dropdownValue
-          : widget.strs.length > 0 ? widget.strs[0] : dropdownValue,
-      icon: Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: TextStyle(color: const Color(0xff1b262c)),
-      underline: Container(
-        height: 2,
-        color: const Color(0xff0f4c75),
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownValue = newValue;
-        });
-        widget.dropdownChanged(newValue);
-      },
-      items: widget.strs.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
   }
 }

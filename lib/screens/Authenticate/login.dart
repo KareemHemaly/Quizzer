@@ -118,12 +118,12 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     var result = await _authService.signInWithEmailAndPassword(
                         this.userName, this.pass);
-                    // if (result != null) {
-                    //   Navigator.push(
-                    //       context,
-                    //       MaterialPageRoute(
-                    //           builder: (context) => InstructorSubjects()));
-                    // }
+                    if (result != null) {
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => InstructorSubjects()));
+                    }
                   },
                 )),
             Container(
@@ -131,7 +131,7 @@ class _LoginState extends State<Login> {
                 child: GestureDetector(
                     onTap: () {
                       print("SIGN UP Pressed");
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Registration()));

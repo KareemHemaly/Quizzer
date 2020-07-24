@@ -4,6 +4,7 @@ import 'package:quizzer/models/studentSubjectModel.dart';
 import 'package:quizzer/services/examService.dart';
 import 'package:quizzer/services/studentService.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:quizzer/viewModel/studentScoreViewMode.dart';
 
 class StudentResults extends StatefulWidget {
   @override
@@ -14,17 +15,30 @@ class _StudentResultsState extends State<StudentResults> {
 //exam
   final ExamService _examService = new ExamService();
   List<ExamModel> _exam = new List<ExamModel>();
+  List<StudentScoreViewModel> studentViewModel =
+      new List<StudentScoreViewModel>();
 
   //student
   final StudentService _studentExamService = new StudentService();
   List<StudentSubjectModel> _studentExams = new List<StudentSubjectModel>();
 
   getData() async {
+    StudentScoreViewModel st;
     _studentExamService
         .getStudentSbujectModelByID('hRgc93UwVD6horldHVHZ')
         .then((value) => {
               setState(() {
                 _studentExams = value;
+                for (var item in _studentExams) {
+                  st = new StudentScoreViewModel();
+                  _examService.getByID(item.examId).then((exam) {
+                    if (exam.id != null) {
+                      st.studentSubject = item;
+                      st.exam = exam;
+                      studentViewModel.add(st);
+                    }
+                  });
+                }
               })
             });
   }
@@ -38,7 +52,6 @@ class _StudentResultsState extends State<StudentResults> {
 
     // getSubjects('KareemHemaly');
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +74,10 @@ class _StudentResultsState extends State<StudentResults> {
           child: Column(
             children: <Widget>[
               Flexible(
-                              child: ListView.builder(
-                  itemCount: this._studentExams.length ?? 0,
+                child: ListView.builder(
+                  itemCount: this.studentViewModel.length ?? 0,
                   itemBuilder: (BuildContext context, index) {
-                    _examService.getByID(_studentExams[index].examId).then((value) => _exam = value); 
-                    return this._studentExams == null
+                    return this.studentViewModel == null
                         ? SpinKitWanderingCubes(color: Color(0xff0f4c75))
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,7 +98,7 @@ class _StudentResultsState extends State<StudentResults> {
                                   ),
                                   FlatButton(
                                     child: Text(
-                                     _exam[0].name ,
+                                      studentViewModel[index].exam.name,
                                       style: TextStyle(
                                         fontFamily: 'Arial',
                                         fontSize: 33,
@@ -101,7 +113,12 @@ class _StudentResultsState extends State<StudentResults> {
                               ),
                               FlatButton(
                                 child: Text(
-                                  '18/20',
+                                  studentViewModel[index].studentSubject.score +
+                                      '/' +
+                                      studentViewModel[index]
+                                          .exam
+                                          .maxScore
+                                          .toString(),
                                   style: TextStyle(
                                     fontFamily: 'Arial',
                                     fontSize: 25,
@@ -122,14 +139,6 @@ class _StudentResultsState extends State<StudentResults> {
               // color: const Color(0xffab1a1a),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: const Color(0xff1B262C),
-          child: Icon(
-            Icons.add,
-            color: const Color(0xff3282B8),
-          ),
-          onPressed: () {},
         ),
       ),
     );

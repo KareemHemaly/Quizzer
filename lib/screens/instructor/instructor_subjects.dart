@@ -18,13 +18,23 @@ class _InstructorSubjectsState extends State<InstructorSubjects> {
   List<SubjectModel> _subjects = new List<SubjectModel>();
   bool dataInProgress = true;
   final AuthService _authService = new AuthService();
+  String userId;
 
   getSubjects() async {
-    var result = await _subjectService.get();
-    setState(() {
-      _subjects = result;
-      dataInProgress = false;
-    });
+    _subjectService.get().then((value) => {
+          setState(() {
+            _subjects = value;
+            dataInProgress = false;
+          })
+        });
+  }
+
+  getInstructorId() async {
+    _authService.getCurrentUser().then((value) => {
+          this.setState(() {
+            userId = value;
+          })
+        });
   }
 
   @override
@@ -32,6 +42,7 @@ class _InstructorSubjectsState extends State<InstructorSubjects> {
     // TODO: implement initState
     super.initState();
     getSubjects();
+    getInstructorId();
   }
 
   @override
@@ -209,6 +220,7 @@ class _InstructorSubjectsState extends State<InstructorSubjects> {
                           onPressed: () async {
                             if (_subjectName.isNotEmpty) {
                               _model.name = _subjectName;
+                              _model.instructorId = this.userId;
                               var result = await _subjectService.add(_model);
                               if (result != null) {
                                 FocusScope.of(context)

@@ -15,7 +15,7 @@ class StudentWelcomeScreen extends StatelessWidget {
           backgroundColor: const Color(0xff0F4C75),
           title: Center(
             child: Text(
-              'user',
+              'Student',
               style: TextStyle(
                 color: const Color(0xffBBE1FA),
               ),
@@ -82,6 +82,8 @@ class StudentWelcomeScreen extends StatelessWidget {
               FlatButton(
                 onPressed: () {
                   _authService.signOut();
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Login()));
                 },
                 child: Text(
                   'LOGOUT',
